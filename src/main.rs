@@ -15,7 +15,7 @@ fn main() {
         match arg.as_str() {
             "--arch" => ascii = ASCII_ARCH,
             "--void" => ascii = ASCII_VOID,
-            "--linux" => ascii = ASCII_ARCH,
+            "--linux" => ascii = ASCII_LINUX,
             "--default" => ascii = ASCII_DEFAULT,
             _ => ()
         }
