@@ -10,7 +10,7 @@ fn main() {
     let sys = System::new_all();
     let (os, distro) = get_os_info(&sys);
     let mut ascii = get_ascii(&os, &distro);
-    let mut boudot = false;
+    let mut baudot = false;
 
     for arg in &args[1..] {
         match arg.as_str() {
@@ -18,7 +18,7 @@ fn main() {
             "--void" => ascii = ASCII_VOID,
             "--linux" => ascii = ASCII_LINUX,
             "--default" => ascii = ASCII_DEFAULT,
-            "--boudot" => boudot = true,
+            "--baudot" => baudot = true,
             _ => ()
         }
     }
@@ -37,15 +37,15 @@ fn main() {
         if i < info.len() {
             info_line = info[i].clone();
         }
-        if boudot {
-            ascii_line = ascii_to_boudot(&ascii_line.to_uppercase());
-            info_line = ascii_to_boudot(&info_line.to_uppercase());
+        if baudot {
+            ascii_line = ascii_to_baudot(&ascii_line.to_uppercase());
+            info_line = ascii_to_baudot(&info_line.to_uppercase());
         }
         print!("\r{:<13} {}\n", ascii_line, info_line);
     }
 }
 
-fn ascii_to_boudot(ascii: &String) -> String {
+fn ascii_to_baudot(ascii: &String) -> String {
     ascii.chars().map(|char|{
         if !BAUDOT_CHARS.iter().any(|&x| x == char) {
             match char {
