@@ -1,5 +1,5 @@
 # telefetch
-Its a system fetch utility that should work with Teletype, but I dont have a Teletype to test it on :(. I only made ASCII art for the distros I use. Feel free add your own and send a pull request.
+Its a system fetch utility that should work with Teletype, but I dont have a Teletype to test it on :(. I only made ASCII art for the distros I use. Feel free add your own and send a pull request. If your Teletype uses boudot try ```telefetch --boudot``` to confert or remove any unsupported ascii charictars.
 ## Installation
 Just run:
 ```console
