@@ -16,7 +16,7 @@ fn main() {
             "--arch" => ascii = ASCII_ARCH,
             "--void" => ascii = ASCII_VOID,
             "--linux" => ascii = ASCII_ARCH,
-            "--defalt" => ascii = ASCII_DEFAULT,
+            "--default" => ascii = ASCII_DEFAULT,
             _ => ()
         }
     }
