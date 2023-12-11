@@ -10,13 +10,15 @@ fn main() {
     let sys = System::new_all();
     let (os, distro) = get_os_info(&sys);
     let mut ascii = get_ascii(&os, &distro);
-    
+    let mut boudot = false;
+
     for arg in &args[1..] {
         match arg.as_str() {
             "--arch" => ascii = ASCII_ARCH,
             "--void" => ascii = ASCII_VOID,
             "--linux" => ascii = ASCII_LINUX,
             "--default" => ascii = ASCII_DEFAULT,
+            "--boudot" => boudot = true,
             _ => ()
         }
     }
@@ -30,12 +32,34 @@ fn main() {
     info.push(get_memory(&sys));
 
     for (i, ascii_line) in ascii.lines().enumerate() {
-        let mut info_line: &String = &String::from("");
+        let mut ascii_line: String = ascii_line.to_string();
+        let mut info_line: String = String::from("");
         if i < info.len() {
-            info_line = &info[i];
+            info_line = info[i].clone();
+        }
+        if boudot {
+            ascii_line = ascii_to_boudot(&ascii_line.to_uppercase());
+            info_line = ascii_to_boudot(&info_line.to_uppercase());
         }
         print!("\r{:<13} {}\n", ascii_line, info_line);
     }
+}
+
+fn ascii_to_boudot(ascii: &String) -> String {
+    ascii.chars().map(|char|{
+        if !BAUDOT_CHARS.iter().any(|&x| x == char) {
+            match char {
+                '\\' => '-',
+                '@' => '#',
+                '`' => '\'',
+                '_' => '.',
+                '<'|'>' => '-',
+                _ => ' '
+            }
+        } else{
+            char
+        }
+    }).collect::<String>()
 }
 
 fn get_os_info(sys: &System) -> (String, String) {
@@ -105,13 +129,22 @@ fn get_ascii<'a>(os: &str, distro: &str) -> &'a str {
         _ => ASCII_DEFAULT
     }
 }
+
+static BAUDOT_CHARS: [char;52] =  [
+    'Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','Z','X','C','V','B','N','M',
+    '1','2','3','4','5','6','7','8','9','0','-','$','!','&','#','\'','(',')','"','/',':',':',';','?',',','.'
+];
+
+
+
+
 static ASCII_DEFAULT: &str =
 " ___________ 
-|_   _|  ___|
-  | | | |
-  | | |  _|
-  | | | |
-  \\_/ \\_|";
+:_   _:  ___:
+  : : : :
+  : : :  _:
+  : : : :
+  \\_/ \\_:";
 
 static ASCII_LINUX: &str =
 "    ---
@@ -121,8 +154,6 @@ static ASCII_LINUX: &str =
  : \\  \\/ )
 --.'__/.--
 \\_/____\\_/";
-
-
 
 static ASCII_ARCH: &str = 
 "     /\\    
